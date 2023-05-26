@@ -3,11 +3,11 @@ from bs4 import BeautifulSoup
 import argparse
 import sys
 
+headers = {
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
+}
 
 def getWatchlists():
-    headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
-    }
     url = "https://finance.yahoo.com/watchlists/category/section-popular"
     response = requests.get(url, headers=headers)
     html_content = response.text
@@ -26,14 +26,9 @@ def getWatchlists():
             watchlist_name = cells[0].text.strip()
             watchlist_link = cells[0].find("a").get("href")
             watchlists.append([watchlist_name, watchlist_link])
-
     return watchlists
 
-
 def getWatchlistItems(ext):
-    headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
-    }
     url = "https://finance.yahoo.com"
     response = requests.get(url + ext, headers=headers)
     html_content = response.text
@@ -47,11 +42,7 @@ def getWatchlistItems(ext):
             watchlist.append(cells[0].text.strip())
     return watchlist
 
-
 def getScreeners():
-    headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
-    }
     url = "https://finance.yahoo.com/screener"
     response = requests.get(url, headers=headers)
     html_content = response.text
@@ -65,14 +56,9 @@ def getScreeners():
             screener_name = cells[0].text.strip()
             screener_link = cells[0].find("a").get("href")
             screeners.append([screener_name, screener_link])
-
     return screeners
 
-
 def getScreenerItems(ext):
-    headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
-    }
     url = "https://finance.yahoo.com"
     response = requests.get(url + ext, headers=headers)
     html_content = response.text
@@ -86,11 +72,7 @@ def getScreenerItems(ext):
             screener.append(cells[0].text.strip())
     return screener
 
-
 def getTrending():
-    headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
-    }
     url = "https://finance.yahoo.com/trending-tickers"
     response = requests.get(url, headers=headers)
     soup = BeautifulSoup(response.content, "html.parser")
@@ -102,7 +84,6 @@ def getTrending():
         if len(cells) > 0:
             trending.append(cells[0].text.strip())
     return trending
-
 
 def getSP500():
     url = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
@@ -117,15 +98,12 @@ def getSP500():
         symbols.append(symbol)
     return symbols
 
-
 def printMenu():
     print("[0] Watchlists\n[1] Screeners\n[2] Trending")
-
 
 def printOptions(list):
     for i, l in enumerate(list):
         print(f"[{i}] {l[0]}")
-
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -150,7 +128,6 @@ def parse_args():
     args = parser.parse_args()
     return args
 
-
 def main():
     if len(sys.argv) > 1:
         inputs = parse_args()
@@ -168,7 +145,6 @@ def main():
         if inputs.S:
             print("S&P 500")
             print(getSP500())
-
     else:
         printMenu()
         choice = input("Select option: ")
@@ -184,7 +160,6 @@ def main():
             print(getScreenerItems(screeners[int(choice)][1]))
         elif choice == "2":
             print(getTrending())
-
 
 if __name__ == "__main__":
     main()
