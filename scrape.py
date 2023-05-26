@@ -19,9 +19,7 @@ def getWatchlists():
         },
     )
     rows = table.find_all("tr")
-
     watchlists = []
-
     for row in rows:
         cells = row.find_all("td")
         if len(cells) > 0:
